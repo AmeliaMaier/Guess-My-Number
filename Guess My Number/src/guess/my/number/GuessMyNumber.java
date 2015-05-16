@@ -27,9 +27,6 @@ public class GuessMyNumber {
     public GuessMyNumber() {
         do {
             Initialize();
-            //debug
-            System.out.println("debugging    " + answer);
-            //debug   
             while (!CheckGuess()) {
             }
         } while (PlayAgain());
@@ -42,27 +39,7 @@ public class GuessMyNumber {
 
     private boolean CheckGuess() {
         Integer guess = GetGuess();
-        boolean status = StatusResponse(guess);
-        lastGuess = guess;
-        if (!status) {
-            System.out.println("Try again.");
-        }
-        return status;
-
-    }
-
-    private boolean PlayAgain() {
-        char playAgain = ' ';
-        do {
-            try {
-                System.out.print("Do you want to play again? (Y/N)");
-                playAgain = input.next().toUpperCase().charAt(0);
-            } catch (InputMismatchException e) {
-                System.out.println("Please only enter a letter.");
-                input.nextLine();
-            }
-        } while (playAgain != 'Y' && playAgain != 'N');
-        return (playAgain == 'Y');
+        return StatusResponse(guess);
     }
 
     private int GetGuess() {
@@ -86,68 +63,60 @@ public class GuessMyNumber {
         }
         int difference = Math.abs(answer - guess);
         if (difference > 30) {
-            System.out.println("You are FREEZING" + MovementResponse(difference, 1));
-            return false;
+            System.out.println("You are FREEZING" + ColdResponse(difference, "WARMER", "COLDER") + ".");
+        } else if (difference > 20) {
+            System.out.println("You are COLD" + ColdResponse(difference, "WARMER", "COLDER") + ".");
+        } else if (difference > 10) {
+            System.out.println("You are COOL" + ColdResponse(difference, "WARMER", "COOLER") + ".");
+        } else if (difference > 5) {
+            System.out.println("You are WARM" + HotResponse(difference, "WARMER", "COOLER") + ".");
+        } else {
+            System.out.println("You are HOT" + HotResponse(difference, "HOTTER", "COOLER") + ".");
         }
-        if (difference > 20) {
-            System.out.print("You are COLD" + MovementResponse(difference, 2));
-            return false;
-        }
-        if (difference > 10) {
-            System.out.print("You are COOL" + MovementResponse(difference, 3));
-            return false;
-        }
-        if (difference > 5) {
-            System.out.print("You are WARM" + MovementResponse(difference, 4));
-            return false;
-        }
-        System.out.print("You are HOT" + MovementResponse(difference, 5));
+        System.out.println("Try agian.");
+        lastGuess = guess;
         return false;
-
     }
 
-    private String MovementResponse(int currentDifference, int switchCase) {
-        if (lastGuess != null) {
-            int lastDifference = Math.abs(answer - lastGuess);
-            switch (switchCase) {
-                case 1:
-                case 2:
-                    if (lastDifference > currentDifference) {
-                        return " but you are getting WARMER.";
-                    }
-                    if (lastDifference < currentDifference) {
-                        return " and you are getting COLDER.";
-                    }
-                    return ".";
-                case 3:
-                    if (lastDifference > currentDifference) {
-                        return " but you are getting WARMER.";
-                    }
-                    if (lastDifference < currentDifference) {
-                        return " and you are getting COOLER.";
-                    }
-                    return ".";
-                case 4:
-                    if (lastDifference > currentDifference) {
-                        return " and you are getting WARMER.";
-                    }
-                    if (lastDifference < currentDifference) {
-                        return " but you are getting COOLER.";
-                    }
-                    return ".";
-                case 5:
-                    if (lastDifference > currentDifference) {
-                        return " and you are getting HOTTER.";
-                    }
-                    if (lastDifference < currentDifference) {
-                        return " but you are getting COOLER.";
-                    }
-                    return ".";
-                default:
-                    return ".";
-            }
+    private String ColdResponse(int currentDifference, String hot, String cold) {
+        if (lastGuess == null) {
+            return "";
         }
-        return ".";
+        int lastDifference = Math.abs(answer - lastGuess);
+        if (lastDifference > currentDifference) {
+            return (" but you are getting " + hot);
+        }
+        if (lastDifference < currentDifference) {
+            return (" and you are getting " + cold);
+        }
+        return "";
+    }
 
+    private String HotResponse(int currentDifference, String hot, String cold) {
+        if (lastGuess == null) {
+            return "";
+        }
+        int lastDifference = Math.abs(answer - lastGuess);
+        if (lastDifference > currentDifference) {
+            return (" and you are getting " + hot);
+        }
+        if (lastDifference < currentDifference) {
+            return (" but you are getting " + cold);
+        }
+        return "";
+    }
+
+    private boolean PlayAgain() {
+        char playAgain = ' ';
+        do {
+            try {
+                System.out.print("Do you want to play again? (Y/N)");
+                playAgain = input.next().toUpperCase().charAt(0);
+            } catch (InputMismatchException e) {
+                System.out.println("Please only enter a letter.");
+                input.nextLine();
+            }
+        } while (playAgain != 'Y' && playAgain != 'N');
+        return (playAgain == 'Y');
     }
 }
