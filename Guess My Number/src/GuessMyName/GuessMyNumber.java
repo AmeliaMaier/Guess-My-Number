@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guess.my.number;
+package GuessMyName;
 
 import java.util.Random;
 import java.util.Scanner;
