@@ -34,7 +34,7 @@ public class GuessMyNumber {
 
     private void Initialize() {
         lastGuess = null;
-        answer = random.nextInt(100);
+        answer = Math.abs(random.nextInt(100));
     }
 
     private boolean CheckGuess() {
@@ -46,13 +46,13 @@ public class GuessMyNumber {
         Integer guess = null;
         do {
             try {
-                System.out.print("Guess a number, 0 to 100.");
+                System.out.print("Guess a number, 1 to 100.");
                 guess = input.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Please only enter a number.");
                 input.nextLine();
             }
-        } while (guess == null || guess < 0 || guess > 100);
+        } while (guess == null || guess < 1 || guess > 100);
         return guess;
     }
 
