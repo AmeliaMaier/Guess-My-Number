@@ -34,7 +34,7 @@ public class GuessMyNumber {
 
     private void Initialize() {
         lastGuess = null;
-        answer = Math.abs(random.nextInt(101));
+        answer = Math.abs(random.nextInt(100))+1;
     }
 
     private boolean CheckGuess() {
